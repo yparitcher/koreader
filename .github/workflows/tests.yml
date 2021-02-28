@@ -35,10 +35,10 @@ jobs:
             key: deps-{{ arch }}-{{ checksum ".ci/install.sh" }}-{{ checksum ".ci/helper_luarocks.sh" }}
 
       - name: need to init some stuff first or git will complain when sticking in base cache
-      - run: git submodule init base && git submodule update base && pushd base && git submodule init && git submodule update && popd
+        run: git submodule init base && git submodule update base && pushd base && git submodule init && git submodule update && popd
 
       - name: we can't use command output directly for cache check so we write it to git-rev-base
-      - run: pushd base && git_rev_base=$(git describe HEAD) && popd && echo $git_rev_base && echo $git_rev_base >git-rev-base
+       run: pushd base && git_rev_base=$(git describe HEAD) && popd && echo $git_rev_base && echo $git_rev_base >git-rev-base
 
       - name: Cache base
         uses: actions/cache@v2
@@ -51,24 +51,24 @@ jobs:
             key: build-{{ arch }}-{{ checksum "git-rev-base" }}
 
       - name: setup env
-      - run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
+        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
       - name: install
-      - run: .ci/install.sh
+        run: .ci/install.sh
 
       - name: fetch
-      - run: .ci/fetch.sh
+        run: .ci/fetch.sh
 
       - name: check
-      - run: .ci/check.sh
+        run: .ci/check.sh
 
       - name:  build
-      - run: .ci/build.sh
+        run: .ci/build.sh
 
       - name:  test
-      - run: .ci/test.sh
+        run: .ci/test.sh
 
       - name:  docs-and-coverage
-      - run: .ci/after_success.sh
+        run: .ci/after_success.sh
 
 
