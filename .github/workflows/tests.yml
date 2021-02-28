@@ -44,10 +44,10 @@ jobs:
 
 
       - name: install luarocks packages
-        run: luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
+        run: luarocks --local config lua_version 5.1 && luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
 
       - name: luarocks path
-        run: echo "LUA_PATH=$(luarocks path --lr-path)" >> $GITHUB_ENV && echo "LUA_CPATH=$(luarocks path --lr-cpath)" >> $GITHUB_ENV && echo "LUA_PATH=$(luarocks path --lr-bin)" >> $GITHUB_PATH && cp ${HOME}/local/etc/luarocks/config.lua ${HOME}/.luarocks/config.lua
+        run: echo "LUA_PATH=$(luarocks path --lr-path)" >> $GITHUB_ENV && echo "LUA_CPATH=$(luarocks path --lr-cpath)" >> $GITHUB_ENV && echo "LUA_PATH=$(luarocks path --lr-bin)" >> $GITHUB_PATH
 
       - name: kodev fetch third party
         run: ./kodev fetch-thirdparty
