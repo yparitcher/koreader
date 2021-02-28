@@ -67,12 +67,7 @@ jobs:
         run: ./kodev activate
 
       - name: install luarocks packages
-        run: luarocks --local install ansicolors
-        run: luarocks --local install busted
-        run: luarocks --local install luacheck
-        run: luarocks --local install lanes
-        run: luarocks --local install ldoc
-        run: luarocks --local install luacov
+        run: luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
 
       - name: kodev fetch third party
         run: ./kodev fetch-thirdparty
