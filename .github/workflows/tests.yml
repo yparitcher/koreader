@@ -50,6 +50,7 @@ jobs:
                 - "install"
             key: build-{{ arch }}-{{ checksum "git-rev-base" }}
 
+      - name: setup env
       - run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
       - name: install
