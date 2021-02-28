@@ -1,4 +1,4 @@
-name: ctest
+name: CI tests
 
 on: [push, pull_request]
 
@@ -72,11 +72,11 @@ jobs:
       - name: kodev fetch third party
         run: ./kodev fetch-thirdparty
 
-      - name: check
-        run: .ci/check.sh
-
       - name:  build
         run: ./kodev build
+
+      - name: check
+        run: .ci/check.sh
 
       - name:  test
         run: ./kodev test front
