@@ -63,17 +63,17 @@ jobs:
 #      - name: setup env
 #        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
-      - name: kodev activate
-        run: ./kodev activate
-
       - name: install luarocks packages
         run: luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
 
-      - name: kodev fetch third party
-        run: ./kodev fetch-thirdparty
+      - name: kodev activate
+        run: ./kodev activate
 
       - name: check
         run: .ci/check.sh
+
+      - name: kodev fetch third party
+        run: ./kodev fetch-thirdparty
 
       - name:  build
         run: ./kodev build
