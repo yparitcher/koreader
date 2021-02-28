@@ -30,7 +30,7 @@ jobs:
         run: sudo snap install shfmt
 
       - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool nasm ragel libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386 shellcheck
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool nasm ragel luajit luarocks libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386 shellcheck
 
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -63,17 +63,16 @@ jobs:
 #      - name: setup env
 #        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
-      - uses: leafo/gh-actions-lua@v8.0.0
-        with:
-          luaVersion: "luajit-2.1.0-beta3"
-
-      - uses: leafo/gh-actions-luarocks@v4
-
       - name: kodev activate
         run: ./kodev activate
 
       - name: install luarocks packages
-        run: luarocks  --lua-version 5.1 --local install ansicolors busted luacheck lanes ldoc luacov
+        run: luarocks --local install ansicolors
+        run: luarocks --local install busted
+        run: luarocks --local install luacheck
+        run: luarocks --local install lanes
+        run: luarocks --local install ldoc
+        run: luarocks --local install luacov
 
       - name: kodev fetch third party
         run: ./kodev fetch-thirdparty
