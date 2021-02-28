@@ -29,9 +29,9 @@ jobs:
       - name: Cache deps
         uses: actions/cache@v2
         with:
-            path: 
-                - "/home/ko/.ccache"
-                - "base"
+            path: |
+                /home/ko/.ccache
+                base
             key: deps-{{ arch }}-{{ checksum ".ci/install.sh" }}-{{ checksum ".ci/helper_luarocks.sh" }}
 
       - name: need to init some stuff first or git will complain when sticking in base cache
