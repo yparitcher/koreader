@@ -1,4 +1,4 @@
-name: CCtest
+name: ctest
 
 on: [push, pull_request]
 
