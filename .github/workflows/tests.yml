@@ -64,7 +64,7 @@ jobs:
 #        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
       - name: install luarocks packages
-        run: luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
+        run: sudo luarocks install ansicolors && sudo luarocks install busted && sudo luarocks install luacheck && sudo luarocks install lanes && sudo luarocks install ldoc && sudo luarocks install luacov
 
       - name: luarocks path
         run: echo "LUA_PATH=$(luarocks path --lr-path)" >> $GITHUB_ENV && echo "LUA_CPATH=$(luarocks path --lr-cpath)" >> $GITHUB_ENV && echo "LUA_PATH=$(luarocks path --lr-bin)" >> $GITHUB_PATH
