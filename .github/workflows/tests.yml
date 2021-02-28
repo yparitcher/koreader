@@ -11,14 +11,14 @@ jobs:
         os: [ubuntu-latest]
 
     container: koreader/koappimage:0.1.7
-    with:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+#    with:
+#        username: $DOCKER_USERNAME
+#        password: $DOCKER_PASSWORD
         
-        env:
-            EMULATE_READER: 1
-            # this is for shellcheck 0.4.5 and lower; can be removed for 0.4.6
-            LC_ALL: en_US.UTF8
+    env:
+        EMULATE_READER: 1
+        # this is for shellcheck 0.4.5 and lower; can be removed for 0.4.6
+        LC_ALL: en_US.UTF8
 
     steps:
       - name: Check out Git repository
