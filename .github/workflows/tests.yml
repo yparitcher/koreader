@@ -30,7 +30,7 @@ jobs:
         run: sudo snap install shfmt
 
       - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool libtool-bin nasm ragel luarocks libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386 shellcheck
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool libtool-bin nasm ragel luarocks libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386 shellcheck luajit
 
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -65,6 +65,9 @@ jobs:
 
       - name: install luarocks packages
         run: luarocks --local install ansicolors && luarocks --local install busted && luarocks --local install luacheck && luarocks --local install lanes && luarocks --local install ldoc && luarocks --local install luacov
+
+      - name: luarocks path
+        run: echo "LUA_PATH=$(luarocks path --lr-path)" >> $GITHUB_ENV && echo "LUA_CPATH=$(luarocks path --lr-cpath)" >> $GITHUB_ENV && echo "LUA_PATH=$(luarocks path --lr-bin)" >> $GITHUB_PATH
 
       - name: kodev activate
         run: ./kodev activate

@@ -1170,7 +1170,6 @@ case "${1}" in
     activate)
         echo "adding ${CURDIR} to \$PATH..."
         export PATH="${PATH}:${CURDIR}"
-        echo "$(luarocks path --bin)"
         eval "$(luarocks path --bin)"
         exec "${SHELL}"
         ;;
