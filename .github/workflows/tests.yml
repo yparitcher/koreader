@@ -43,11 +43,10 @@ jobs:
       - name: Cache base
         uses: actions/cache@v2
         with:
-            path: 
-                - "/home/ko/bin"
-                - "/home/ko/.luarocks"
-                # compiled luarocks binaries
-                - "install"
+            path: |
+                /home/ko/bin
+                /home/ko/.luarocks
+                install
             key: build-{{ arch }}-{{ checksum "git-rev-base" }}
 
       - name: setup env
