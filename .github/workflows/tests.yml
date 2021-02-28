@@ -29,6 +29,10 @@ jobs:
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool nasm ragel luarocks libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386
 
+# install shfmt
+      - name: Add 32bit arch
+        run: curl -sSL "https://github.com/mvdan/sh/releases/download/v3.2.0/shfmt_v3.2.0_linux_amd64" -o "${HOME}/bin/shfmt" && chmod +x "${HOME}/bin/shfmt"
+
       - name: Check out Git repository
         uses: actions/checkout@v2
         with:
