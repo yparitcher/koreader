@@ -1,0 +1,73 @@
+name: CCtest
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    container: koreader/koappimage:0.1.7
+    with:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+        
+        env:
+            EMULATE_READER: 1
+            # this is for shellcheck 0.4.5 and lower; can be removed for 0.4.6
+            LC_ALL: en_US.UTF8
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Cache deps
+        uses: actions/cache@v2
+        with:
+            path: 
+                - "/home/ko/.ccache"
+                - "base"
+            key: deps-{{ arch }}-{{ checksum ".ci/install.sh" }}-{{ checksum ".ci/helper_luarocks.sh" }}
+
+      - name: need to init some stuff first or git will complain when sticking in base cache
+      - run: git submodule init base && git submodule update base && pushd base && git submodule init && git submodule update && popd
+
+      - name: we can't use command output directly for cache check so we write it to git-rev-base
+      - run: pushd base && git_rev_base=$(git describe HEAD) && popd && echo $git_rev_base && echo $git_rev_base >git-rev-base
+
+      - name: Cache base
+        uses: actions/cache@v2
+        with:
+            path: 
+                - "/home/ko/bin"
+                - "/home/ko/.luarocks"
+                # compiled luarocks binaries
+                - "install"
+            key: build-{{ arch }}-{{ checksum "git-rev-base" }}
+
+      - run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
+
+      - name: install
+      - run: .ci/install.sh
+
+      - name: fetch
+      - run: .ci/fetch.sh
+
+      - name: check
+      - run: .ci/check.sh
+
+      - name:  build
+      - run: .ci/build.sh
+
+      - name:  test
+      - run: .ci/test.sh
+
+      - name:  docs-and-coverage
+      - run: .ci/after_success.sh
+
+
