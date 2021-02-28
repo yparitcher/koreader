@@ -10,7 +10,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    container: koreader/koappimage:0.1.7
+    container: 
+        image: koreader/koappimage:0.1.7
+        options: --user root
 #    with:
 #        username: $DOCKER_USERNAME
 #        password: $DOCKER_PASSWORD
