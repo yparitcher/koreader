@@ -63,6 +63,12 @@ jobs:
 #      - name: setup env
 #        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
+      - uses: leafo/gh-actions-lua@v8.0.0
+        with:
+          luaVersion: "luajit-2.1.0-beta3"
+
+      - uses: leafo/gh-actions-luarocks@v4
+
       - name: kodev activate
         run: ./kodev activate
 
