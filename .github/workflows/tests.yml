@@ -31,7 +31,7 @@ jobs:
 
 # install shfmt
       - name: Add 32bit arch
-        run: curl -sSL "https://github.com/mvdan/sh/releases/download/v3.2.0/shfmt_v3.2.0_linux_amd64" -o "${HOME}/bin/shfmt" && chmod +x "${HOME}/bin/shfmt"
+        run: curl -sSL "https://github.com/mvdan/sh/releases/download/v3.2.0/shfmt_v3.2.0_linux_amd64" -o "${HOME}/.local/bin/shfmt" && chmod +x "${HOME}/bin/shfmt"
 
       - name: Check out Git repository
         uses: actions/checkout@v2
