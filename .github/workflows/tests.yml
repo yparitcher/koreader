@@ -10,9 +10,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    container:
-        image: koreader/koappimage:0.1.7
-        options: --user root
+#    container:
+#        image: koreader/koappimage:0.1.7
+#        options: --user root
 #    with:
 #        username: $DOCKER_USERNAME
 #        password: $DOCKER_PASSWORD
@@ -23,51 +23,54 @@ jobs:
         LC_ALL: en_US.UTF8
 
     steps:
+      - name: Install deps
+        run: apt-get update && apt-get install -y --no-install-recommends build-essential git patch wget unzip gettext autoconf automake cmake libtool nasm ragel luarocks libsdl2-dev libssl-dev libffi-dev libsdl2-dev libc6-dev-i386 xutils-dev linux-libc-dev:i386 zlib1g:i386
+
       - name: Check out Git repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Cache deps
-        uses: actions/cache@v2
-        with:
-            path: |
-                /home/ko/.ccache
-                base
-            key: deps-{{ arch }}-{{ checksum ".ci/install.sh" }}-{{ checksum ".ci/helper_luarocks.sh" }}
+#      - name: Cache deps
+#        uses: actions/cache@v2
+#        with:
+#            path: |
+#                /home/ko/.ccache
+#                base
+#            key: deps-{{ arch }}-{{ checksum ".ci/install.sh" }}-{{ checksum ".ci/helper_luarocks.sh" }}
 
-      - name: need to init some stuff first or git will complain when sticking in base cache
-        run: cd "$GITHUB_WORKSPACE" && git submodule init base && git submodule update base && pushd base && git submodule init && git submodule update && popd
+#      - name: need to init some stuff first or git will complain when sticking in base cache
+#        run: cd "$GITHUB_WORKSPACE" && git submodule init base && git submodule update base && pushd base && git submodule init && git submodule update && popd
 
-      - name: cache check
-        run: pushd base && git_rev_base=$(git describe HEAD) && popd && echo $git_rev_base && echo $git_rev_base >git-rev-base
+#      - name: cache check
+#        run: pushd base && git_rev_base=$(git describe HEAD) && popd && echo $git_rev_base && echo $git_rev_base >git-rev-base
 
-      - name: Cache base
-        uses: actions/cache@v2
-        with:
-            path: |
-                /home/ko/bin
-                /home/ko/.luarocks
-                install
-            key: build-{{ arch }}-{{ checksum "git-rev-base" }}
+#      - name: Cache base
+#        uses: actions/cache@v2
+#        with:
+#            path: |
+#                /home/ko/bin
+#                /home/ko/.luarocks
+#                install
+#            key: build-{{ arch }}-{{ checksum "git-rev-base" }}
 
-      - name: setup env
-        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
+#      - name: setup env
+#        run: echo 'export PATH=${HOME}/bin:${PATH}' >> $BASH_ENV
 
-      - name: install
-        run: .ci/install.sh
+      - name: kodev activate
+        run: ./kodev activate
 
-      - name: fetch
-        run: .ci/fetch.sh
+      - name: kodev fetch third party
+        run: ./kodev fetch-thirdparty
 
       - name: check
         run: .ci/check.sh
 
       - name:  build
-        run: .ci/build.sh
+        run: ./kodev build
 
       - name:  test
-        run: .ci/test.sh
+        run: ./kodev test front
 
       - name:  docs-and-coverage
         run: .ci/after_success.sh
