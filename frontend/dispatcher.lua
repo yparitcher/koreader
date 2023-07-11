@@ -996,6 +996,20 @@ function Dispatcher:_showAsMenu(settings, gesture)
     local display_list = Dispatcher:getDisplayList(settings)
     local quickmenu
     local buttons = {}
+    if gesture.qm_execute_all then
+        table.insert(buttons, {{
+            text = _("Execute all"),
+            align = "left",
+            font_face = "smallinfofont",
+            font_size = 22,
+            callback = function()
+                UIManager:close(quickmenu)
+                temp_settings = util.tableDeepCopy(settings)
+                temp_settings.settings and (temp_settings.settings.show_as_quickmenu = nil)
+                Dispatcher:execute(temp_settings, gesture)
+            end,
+        }})
+    end
     for _, v in ipairs(display_list) do
         table.insert(buttons, {{
             text = v.text,
@@ -1007,6 +1021,12 @@ function Dispatcher:_showAsMenu(settings, gesture)
             callback = function()
                 UIManager:close(quickmenu)
                 Dispatcher:execute({[v.key] = settings[v.key]})
+            end,
+            hold_callback = function()
+                if v.key:sub(1, 13) == "profile_exec_" then
+                    UIManager:close(quickmenu)
+                    UIManager:sendEvent(Event:new(settingsList[v.key].event, settingsList[v.key].arg, gesture, true))
+                end
             end,
         }})
     end
