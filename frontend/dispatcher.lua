@@ -996,7 +996,7 @@ function Dispatcher:_showAsMenu(settings, gesture)
     local display_list = Dispatcher:getDisplayList(settings)
     local quickmenu
     local buttons = {}
-    if gesture.qm_execute_all then
+    if settings.settings.qm_execute_all then
         table.insert(buttons, {{
             text = _("Execute all"),
             align = "left",

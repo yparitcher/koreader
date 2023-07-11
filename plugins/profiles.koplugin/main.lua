@@ -259,6 +259,7 @@ function Profiles:onProfileExecute(name, gesture, show_as_quickmenu)
         settings = util.tableDeepCopy(self.data[name])
         if settings.settings == nil then settings.settings = {} end
         settings.settings.show_as_quickmenu = show_as_quickmenu
+        settings.settings.qm_execute_all = show_as_quickmenu
     end
     Dispatcher:execute(settings or self.data[name], gesture)
 end
