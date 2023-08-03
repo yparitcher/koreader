@@ -196,7 +196,7 @@ local Input = {
         return _internal_clipboard_text
     end,
     setClipboardText = function(text)
-        _internal_clipboard_text = text
+        _internal_clipboard_text = text or ""
     end,
 }
 
