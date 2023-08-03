@@ -98,7 +98,7 @@ local linux_evdev_rep_code_map = {
     [C.REP_PERIOD] = "REP_PERIOD",
 }
 
-local _internal_clipboard_text = nil -- holds the last copied text
+local _internal_clipboard_text = "" -- holds the last copied text
 
 local Input = {
     -- must point to the device implementation when instantiating
@@ -190,7 +190,7 @@ local Input = {
 
     -- simple internal clipboard implementation, can be overidden to use system clipboard
     hasClipboardText = function()
-        return _internal_clipboard_text ~= nil and _internal_clipboard_text ~= ""
+        return _internal_clipboard_text ~= ""
     end,
     getClipboardText = function()
         return _internal_clipboard_text
